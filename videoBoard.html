@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>딥페이크 탐지 플랫폼</title>
+  <link rel="stylesheet" href="videoBoardstyles.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <header class="header">
+    <div class="logo" onclick="location.reload()">
+      <img src="DeepTect.png" alt="로고">
+    </div>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchButton">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+      </button>
+    </div>
+    <div class="actions">
+      <select onchange="setSort(this.value)">
+        <option>최신순</option>
+        <option>조회수순</option>
+      </select>
+      <button onclick="goToUpload()">업로드</button>
+      <button onclick="goToMyPage()">마이페이지</button>
+    </div>
+  </header>
+
+  <div class="categories">
+    <button onclick="setCategory('전체')">전체</button>
+    <button onclick="setCategory('스포츠')">스포츠</button>
+    <button onclick="setCategory('뉴스')">뉴스</button>
+    <button onclick="setCategory('연예')">연예</button>
+    <button onclick="setCategory('정치')">정치</button>
+    <button onclick="setCategory('예술')">예술</button>
+  </div>
+
+  <section id="videoGrid" class="video-grid"></section>
+  <div id="loading" class="loading" style="display:none">로딩 중...</div>
+
+  <script src="videoBoardscript.js"></script>
+</body>
+</html>
