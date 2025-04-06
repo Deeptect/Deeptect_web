@@ -3,25 +3,32 @@ let currentSort = '최신순';
 let currentSearch = '';
 let page = 1;
 let isLoading = false;
-const sampleVideos = [
-    { title: '딥페이크 분석 예시', thumbnail: 'thumb1.jpg', views: 1000, category: 'AI' },
-    { title: 'AI 탐지 기술 소개', thumbnail: 'thumb2.jpg', views: 2000, category: '기술' },
-    { title: '보안 영상 분석', thumbnail: 'thumb3.jpg', views: 1500, category: '보안' },
-  ];
 let currentPage = 1;
 let itemsPerPage = 12;
 
   
 // 임시 영상 데이터 생성
-const allVideos = Array.from({ length: 100 }).map((_, i) => ({
-  id: i + 1,
-  title: `샘플 영상 ${i + 1}`,
-  views: Math.floor(Math.random() * 10000),
-  date: Date.now() - i * 10000000,
-  category: ['스포츠', '뉴스', '연예', '정치', '예술'][i % 5],
-  isDeepfake: i % 4 === 0,
-  thumbnail: `https://picsum.photos/300/180?random=${i}`,
-}));
+// const allVideos = Array.from({ length: 100 }).map((_, i) => ({
+//   id: i + 1,
+//   title: `샘플 영상 ${i + 1}`,
+//   views: Math.floor(Math.random() * 10000),
+//   date: Date.now() - i * 10000000,
+//   category: ['스포츠', '뉴스', '연예', '정치', '예술'][i % 5],
+//   isDeepfake: i % 4 === 0,
+//   thumbnail: `https://picsum.photos/300/180?random=${i}`,
+// }));
+
+const allVideos = [
+  {
+    id: 1,
+    title: "예시 영상2",
+    views: 100,
+    date: "2025-04-01",
+    category: "스포츠",
+    thumbnail: "DeepTect.png",
+    videoUrl: "videos//111204-689949818_small.mp4"
+  }
+];
 
 function loadVideos() {
   if (isLoading) return;
@@ -65,6 +72,7 @@ function loadVideos() {
           </div>
         </div>
       `;
+      card.onclick = () => playVideo(video.videoUrl);
       grid.appendChild(card);
     });
 
@@ -127,7 +135,19 @@ window.addEventListener("scroll", () => {
 
 window.onload = () => {
   loadVideos();
+
+  // 모달 닫기 버튼
+  document.getElementById('closeModal').addEventListener('click', closeModal);
+
+  // 모달 바깥 클릭 시 닫기
+  window.addEventListener('click', (e) => {
+    const modal = document.getElementById("videoModal");
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
 };
+
 
 const searchInput = document.getElementById('searchInput');
 const searchButton = document.getElementById('searchButton');
@@ -137,4 +157,71 @@ searchInput.addEventListener('keypress', function (e) {
   if (e.key === 'Enter') searchVideos();
 });
 
+function playVideo(url) {
+  const modal = document.getElementById("videoModal");
+  const video = document.getElementById("modalVideo");
 
+  video.src = url;
+  modal.style.display = "flex";
+}
+
+function closeModal() {
+  const modal = document.getElementById("videoModal");
+  const video = document.getElementById("modalVideo");
+
+  video.pause();
+  video.currentTime = 0;
+  video.src = ""; // 영상 중복 방지
+  modal.style.display = "none";
+}
+
+function renderVideos(videos) {
+  const grid = document.getElementById("videoGrid");
+  grid.innerHTML = "";
+  videos.forEach(video => {
+    const card = document.createElement("div");
+    card.className = "video-card";
+    card.innerHTML = `
+      <img src="${video.thumbnail}" alt="${video.title}">
+      <h3>${video.title}</h3>
+    `;
+    card.onclick = () => playVideo(video.videoUrl);
+    grid.appendChild(card);
+  });
+  setupVideoModal();
+}
+
+// // ✅ 영상 목록 렌더링 시작
+// renderVideos(allVideos);
+
+// 모달 관련 스크립트
+function setupVideoModal() {
+  const modal = document.getElementById('videoModal');
+  const modalVideo = document.getElementById('modalVideo');
+  const closeBtn = document.getElementById('closeModal');
+
+  // 각 video-card 클릭 시 모달 열기
+  document.querySelectorAll('.video-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const videoSrc = card.getAttribute('data-video');
+      modalVideo.src = videoSrc;
+      modal.style.display = 'flex';
+    });
+  });
+
+  // 닫기 버튼
+  closeBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+    modalVideo.pause();
+    modalVideo.currentTime = 0;
+  });
+
+  // 바깥 영역 클릭 시 모달 닫기
+  window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+      modalVideo.pause();
+      modalVideo.currentTime = 0;
+    }
+  });
+}

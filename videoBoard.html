@@ -43,6 +43,23 @@
   <section id="videoGrid" class="video-grid"></section>
   <div id="loading" class="loading" style="display:none">로딩 중...</div>
 
+  <div id="videoModal" class="modal" style="display: none;">
+    <span id="closeModal" class="close">&times;</span>
+    <video id="modalVideo" controls autoplay></video>
+  </div>
+
   <script src="videoBoardscript.js"></script>
+<script>
+  document.getElementById('closeModal').addEventListener('click', closeModal);
+
+  window.addEventListener('click', (e) => {
+    const modal = document.getElementById("videoModal");
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+</script>
+
+  <!-- 영상 모달 -->
 </body>
 </html>
