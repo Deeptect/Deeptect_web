@@ -8,27 +8,58 @@ let itemsPerPage = 12;
 
   
 // 임시 영상 데이터 생성
-// const allVideos = Array.from({ length: 100 }).map((_, i) => ({
-//   id: i + 1,
-//   title: `샘플 영상 ${i + 1}`,
-//   views: Math.floor(Math.random() * 10000),
-//   date: Date.now() - i * 10000000,
-//   category: ['스포츠', '뉴스', '연예', '정치', '예술'][i % 5],
-//   isDeepfake: i % 4 === 0,
-//   thumbnail: `https://picsum.photos/300/180?random=${i}`,
-// }));
+const allVideos = Array.from({ length: 20 }).map((_, i) => ({
+  id: i + 1,
+  title: `샘플 영상 ${i + 1}`,
+  views: Math.floor(Math.random() * 10000),
+  date: Date.now() - i * 10000000,
+  category: ['스포츠', '뉴스', '연예', '정치', '예술'][i % 5],
+  isDeepfake: i % 4 === 0,
+  thumbnail: `https://picsum.photos/300/180?random=${i}`,
+})).concat({
 
-const allVideos = [
-  {
-    id: 1,
+// const allVideos = [
+//   {
+    id: 21,
     title: "예시 영상2",
     views: 100,
     date: "2025-04-01",
     category: "스포츠",
     thumbnail: "DeepTect.png",
-    videoUrl: "videos//111204-689949818_small.mp4"
+    videoUrl: "videos//1.mp4"
+  },
+  {
+    id: 22,
+    title: '추가 영상 B',
+    views: 6789,
+    date: Date.now() - 500000,
+    category: '스포츠',
+    isDeepfake: true,
+    thumbnail: 'https://picsum.photos/300/180?random=202',
+    videoUrl: "videos//2.mp4"
+  },
+  {
+    id: 23,
+    title: '추가 영상 C',
+    views: 9000,
+    date: Date.now() - 3000000,
+    category: '예술',
+    isDeepfake: false,
+    thumbnail: 'https://picsum.photos/300/180?random=203',
+    videoUrl: "videos//4.mp4"
+  },
+  {
+    id: 24,
+    title: '추가 영상 D',
+    views: 10000,
+    date: Date.now() - 100000,
+    category: '뉴스',
+    isDeepfake: true,
+    thumbnail: 'https://picsum.photos/300/180?random=204',
+    videoUrl: "videos//1.mp4"
   }
-];
+);
+
 
 function loadVideos() {
   if (isLoading) return;
