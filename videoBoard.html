@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>딥페이크 탐지 플랫폼</title>
-  <link rel="stylesheet" href="videoBoardstyles.css">
+  <link rel="stylesheet" href="css/videoBoardstyles.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
@@ -27,7 +27,7 @@
         <option>조회수순</option>
       </select>
       <button onclick="goToUpload()">업로드</button>
-      <button onclick="goToMyPage()">마이페이지</button>
+      <button onclick="location.href='myPage.html'">마이페이지</button>
     </div>
   </header>
 
@@ -50,7 +50,7 @@
     </div>
   </div>
 
-  <script src="videoBoardscript.js"></script>
+  <script src="script/videoBoardscript.js"></script>
 <script>
   document.getElementById('closeModal').addEventListener('click', closeModal);
 

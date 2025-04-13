@@ -1,36 +1,63 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인 페이지</title>
-    <link rel="stylesheet" href="loginstyles.css">
+    <link rel="stylesheet" href="css/loginstyles.css">
 </head>
 <body>
     <h1>Welcome to DeepTect</h1>
     <div class="container">
         <div class="signup">
-            <a href="#">회원가입</a>
+            <a href="#" onclick="openModal('signupModal')">회원가입</a> 
+            <!-- <a href="#" onclick="openModal('findModal')">아이디/비밀번호 찾기</a> -->
         </div>
-        <form class="login-form" onsubmit="return login()">
+
+        <form class="login-form" onsubmit="return login(event)">
             <input type="text" id="userid" placeholder="ID" required>
             <input type="password" id="password" placeholder="Password" required>
+  
             <button type="submit">로그인</button>
+            <button type="button" onclick="socialLogin('google')">구글 로그인</button>
+            <button type="button" onclick="socialLogin('kakao')">카카오 로그인</button>
         </form>
     </div>
 
-    <script>
-        function login() {
-            // 로그인 검증 (예제이므로 간단하게 처리)
-            const userId = document.getElementById("userid").value;
-            const password = document.getElementById("password").value;
-            if (userId && password) {
-                window.location.href = "main.html"; // 로그인 후 이동할 페이지
-            } else {
-                alert("ID와 Password를 입력하세요.");
-            }
-            return false; // 폼 기본 제출 방지
-        }
-    </script>
+    <!-- 회원가입 모달 -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content reverse-theme">
+            <span class="close" onclick="closeModal('signupModal')">&times;</span>
+            <h2>회원가입</h2>
+            <form onsubmit="return signup(event)">
+                <input type="text" id="signupNickname" placeholder="닉네임" required>
+                <input type="text" id="signupId" placeholder="아이디" required>
+                <input type="text" id="signupName" placeholder="이름" required>
+                <input type="email" id="signupEmail" placeholder="이메일" required>
+                <button type="button" onclick="sendVerificationCode()" class="reverse-button">이메일 인증</button>
+                <div id="verifySection" style="display:none">
+                    <input type="text" id="verificationCode" placeholder="인증코드 입력">
+                    <button type="button" onclick="verifyCode()" class="reverse-button">인증하기</button>
+                    <button type="button" onclick="resendCode()" class="reverse-button">인증코드 재전송</button>
+                </div>
+                <input type="password" id="signupPassword" placeholder="비밀번호" required>
+                <input type="password" id="signupConfirm" placeholder="비밀번호 확인" required>
+                <input type="tel" id="signupPhone" placeholder="전화번호" required>
+                <button type="submit" class="reverse-button">회원가입</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 아이디/비밀번호 찾기 모달 -->
+    <!-- <div id="findModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('findModal')">&times;</span>
+            <h2>아이디/비밀번호 찾기</h2>
+            <p>기능 구현 예정</p>
+        </div>
+    </div> -->
+
+    <script src="script/loginscript.js"></script>
 </body>
 </html>

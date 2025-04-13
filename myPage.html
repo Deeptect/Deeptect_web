@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>마이페이지</title>
+  <link rel="stylesheet" href="css/myPagestyles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="logo-area">
+      <img src="DeepTect.png" alt="Logo" class="logo-img" onclick="location.href='videoBoard.html'" />
+    </div>
+    <nav class="nav-menu">
+      <button onclick="showSection('view')">회원정보 조회</button>
+      <button onclick="showSection('edit')">회원정보 수정</button>
+      <button onclick="showSection('delete')">회원 탈퇴</button>
+    </nav>
+  </header>
+
+  <div class="mypage-container">
+    <section id="section-view" class="section active">
+      <h2>회원정보 조회</h2>
+      <div class="info-box">
+        <p><strong>닉네임:</strong> 사용자닉네임</p>
+        <p><strong>아이디:</strong> user123</p>
+        <p><strong>이름:</strong> 홍길동</p>
+        <p><strong>이메일:</strong> user@example.com</p>
+        <p><strong>비밀번호:</strong> ********</p>
+        <p><strong>전화번호:</strong> 010-1234-5678</p>
+      </div>
+    </section>
+
+    <section id="section-edit" class="section">
+      <h2>회원정보 수정</h2>
+      <div class="form-box">
+        <input type="text" placeholder="닉네임" />
+        <!-- <input type="email" placeholder="이메일 (변경 시 인증 필요)" /> -->
+        <input type="text" placeholder="전화번호" />
+        <input type="text" placeholder="이름" disabled />
+        <input type="password" placeholder="현재 비밀번호" />
+        <input type="password" placeholder="새 비밀번호" />
+        <input type="password" placeholder="새 비밀번호 확인" />
+        <button onclick="updateInfo()">회원정보 수정</button>
+      </div>
+    </section>
+
+    <section id="section-delete" class="section">
+      <h2>회원 탈퇴</h2>
+      <div class="form-box">
+        <input type="password" placeholder="비밀번호 입력" />
+        <button onclick="withdrawAccount()">회원 탈퇴</button>
+      </div>
+    </section>
+  </div>
+
+  <script src="script/myPagescript.js"></script>
+</body>
+</html>

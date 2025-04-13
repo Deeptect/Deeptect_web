@@ -1,0 +1,100 @@
+body {
+    background-color: #030303;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    margin: 0 auto;
+    width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    text-align: center;
+}
+
+input, button {
+    width: 300px;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+}
+
+input {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+button {
+    background: #182449;
+    color: white;
+    cursor: pointer;
+}
+
+.signup {
+    margin-top: -5px;
+    font-size: 12px;
+}
+
+.signup a {
+    color: #fff;
+    text-decoration: none;
+}
+
+h1 {
+    font-weight: 400;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.modal-content {
+    background-color: #1c1c1c;
+    padding: 20px;
+
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+}
+
+.close {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.reverse-theme {
+    background-color: #fffffff1;
+    color: #000000;
+}
+
+/* reverse-theme 내부 input, button 등의 색상도 따로 조정 */
+.reverse-theme input {
+    background-color: #f0f0f0;
+    color: #000;
+    border: 1px solid #ccc;
+}
+
+.reverse-theme label {
+    color: #000;
+}
+
+.reverse-button {
+    background: #000;
+    color: white;
+    cursor: pointer;
+}

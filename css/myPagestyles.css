@@ -1,0 +1,149 @@
+body {
+    background-color: #030303;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #111;
+    padding: 12px 20px;
+    border-bottom: 1px solid #444;
+    
+  }
+  
+  .logo-img {
+    height: 50px;
+    cursor: pointer;
+    filter: invert(1);
+  }
+  
+  .nav-menu button {
+    background: transparent;
+    color: white;
+    border: none;
+    margin-left: 30px;
+    font-size: 18px;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .nav-menu button::after {
+    content: '';
+    display: block;
+    height: 2px;
+    background: #fff;
+    transition: 0.3s;
+    transform: scaleX(0);
+    transform-origin: right;
+  }
+  
+  .nav-menu button:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  
+  .mypage-container {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    min-height: 400px; /* 최소 높이 지정해서 위아래로 안 움직이게 함 */
+  }
+  
+  .section {
+    max-width: 400px;
+    width: 100%;
+    margin-bottom: 30px;
+    border: 1px solid #aaa;
+    padding: 30px;
+    /* border-radius: 15px; */
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  }
+  
+  .section h2 {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: lighter;
+    font-size: 28px;
+    margin: auto;
+    margin-bottom: 40px;
+    margin-top: 0px;
+    color: #ffffff;
+    text-align: center;
+    width: 200px;
+    border: 1px solid #fff;
+    border-radius: 10px;
+  }
+  
+  .info-box p {
+    font-size: 18px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #444;
+    padding-bottom: 8px;
+  }
+  
+  .form-box {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-box input {
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #666;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+  }
+  
+  .form-box input:disabled {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #aaa;
+  }
+  
+  .form-box button {
+    padding: 12px;
+    font-size: 18px;
+    background-color: #fff;
+    color: #000;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .form-box button:hover {
+    background-color: #3b3b3b;
+    transform: scale(1.03);
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  /* section 전환 효과 */
+  .section {
+    position: absolute;
+    top: 50px;
+    align-content: center;
+    width: 100%;
+  
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+  }
+  
+  
+  .section.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  

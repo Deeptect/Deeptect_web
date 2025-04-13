@@ -1,0 +1,95 @@
+body {
+    background-color: #030303;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    position: relative; /* 부모 기준 */
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .logo {
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    animation: glitch-move 1.5s ease-out forwards;
+    z-index: 2;
+  }
+  
+  .logo img {
+    height: 80%;
+    filter: invert(1);
+  }
+  
+  /* 애니메이션 keyframes 수정 안 해도 됨 */
+  @keyframes glitch-move {
+    0% {
+      left: 100%;
+      opacity: 0;
+    }
+    50% {
+      left: 50%;
+      opacity: 1;
+      filter: drop-shadow(0 0 5px #fff);
+    }
+    70% {
+      left: 51%;
+      filter: drop-shadow(0 0 15px #fff);
+    }
+    100% {
+      left: 50%;
+      opacity: 1;
+      filter: none;
+    }
+  }
+  
+  
+  /* 버튼 영역 */
+  .buttons {
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    display: flex;
+    gap: 30px;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+    z-index: 1;
+  }
+
+  
+  /* 애니메이션 후 표시될 때 */
+  .buttons.show {
+    opacity: 1;
+  }
+  
+  .buttons button {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    border: 1px solid #666;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .buttons button i {
+    font-size: 18px;
+  }
+  
+  .buttons button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+  }
+  
+  .hidden {
+    pointer-events: none;
+  }
+  
