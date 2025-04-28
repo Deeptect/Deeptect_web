@@ -8,16 +8,32 @@
 </head>
 <body>
   <header class="header">
-    <div class="logo-area">
-      <img src="DeepTect.png" alt="Logo" class="logo-img" onclick="location.href='videoBoard.html'" />
+    <div class="logo" onclick="location.href='videoBoard.html'">
+      <img src="DeepTect.png" alt="로고" />
     </div>
-    <nav class="nav-menu">
-      <button onclick="showSection('edit')">회원정보 수정</button>
-      <button onclick="showSection('view')">회원정보 조회</button>
-      <button onclick="showSection('delete')">회원 탈퇴</button>
-    </nav>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchButton">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+      </button>
+    </div>
+    <div class="actions">
+      <button onclick="location.href='videoBoard.html'">업로드</button>
+      <button onclick="location.href='myPage.html'">마이페이지</button>
+    </div>
   </header>
+  <main>
+  <aside class="top-menu">
 
+      <button onclick="showSection('view')">회원정보 조회</button>
+      <button onclick="showSection('edit')">회원정보 수정</button>
+      <button onclick="showSection('delete')">회원 탈퇴</button>
+
+  </aside>
+  
   <div class="mypage-container">
     <section id="section-view" class="section active">
       <h2>회원정보 조회</h2>
@@ -31,7 +47,7 @@
       </div>
     </section>
 
-    <section id="section-edit" class="section left">
+    <section id="section-edit" class="section">
       <h2>회원정보 수정</h2>
       <div class="form-box">
         <input type="text" placeholder="닉네임" />
@@ -44,7 +60,7 @@
       </div>
     </section>
 
-    <section id="section-delete" class="section right">
+    <section id="section-delete" class="section">
       <h2>회원 탈퇴</h2>
       <div class="form-box">
         <input type="password" placeholder="비밀번호 입력" />
@@ -52,7 +68,9 @@
       </div>
     </section>
   </div>
+</main>
 
   <script src="script/myPagescript.js"></script>
+  <script src="script/videoBoardscript.js"></script>
 </body>
 </html>

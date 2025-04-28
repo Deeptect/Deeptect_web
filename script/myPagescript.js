@@ -8,17 +8,18 @@ function showSection(id) {
     }
   });
 }
-  
-  function updateInfo() {
-    alert("회원정보가 수정되었습니다.");
-    // 실제 API 연동은 백엔드와 연결 필요
+
+// 추가: 검색 버튼 눌렀을 때 videoBoard.html로 이동하면서 검색어 넘기기
+document.getElementById('searchButton').addEventListener('click', () => {
+  const searchInput = document.getElementById('searchInput').value;
+  if (searchInput.trim() !== '') {
+    window.location.href = `videoBoard.html?search=${encodeURIComponent(searchInput)}`;
   }
-  
-  function withdrawAccount() {
-    const confirmWithdraw = confirm("정말 회원 탈퇴하시겠습니까?");
-    if (confirmWithdraw) {
-      alert("회원 탈퇴가 완료되었습니다.");
-      // 실제 API 연동은 백엔드와 연결 필요
-    }
+});
+
+// 추가: 엔터키로도 검색 가능
+document.getElementById('searchInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    document.getElementById('searchButton').click();
   }
-  
+});

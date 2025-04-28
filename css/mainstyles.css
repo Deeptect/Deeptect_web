@@ -1,11 +1,16 @@
 body {
-    background-color: #030303;
+    /* background-color: #030303;
     margin: 0;
     padding: 0;
     height: 100vh;
     overflow: hidden;
     position: relative; /* 부모 기준 */
-    font-family: 'Arial', sans-serif;
+    /* font-family: 'Arial', sans-serif; */
+    margin: 0;
+    background-image: url('stars.png');
+    background-size: auto;
+    background-repeat: auto;
+    background-position: center;
   }
   
   .logo {
