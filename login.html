@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -16,7 +15,7 @@
         </div>
 
         <form class="login-form" onsubmit="return login(event)">
-            <input type="text" id="userid" placeholder="ID" required>
+            <input type="text" id="userid" placeholder="이메일" required>
             <input type="password" id="password" placeholder="Password" required>
   
             <button type="submit">로그인</button>
@@ -32,18 +31,9 @@
             <h2>회원가입</h2>
             <form onsubmit="return signup(event)">
                 <input type="text" id="signupNickname" placeholder="닉네임" required>
-                <input type="text" id="signupId" placeholder="아이디" required>
-                <input type="text" id="signupName" placeholder="이름" required>
                 <input type="email" id="signupEmail" placeholder="이메일" required>
-                <button type="button" onclick="sendVerificationCode()" class="reverse-button">이메일 인증</button>
-                <div id="verifySection" style="display:none">
-                    <input type="text" id="verificationCode" placeholder="인증코드 입력">
-                    <button type="button" onclick="verifyCode()" class="reverse-button">인증하기</button>
-                    <button type="button" onclick="resendCode()" class="reverse-button">인증코드 재전송</button>
-                </div>
                 <input type="password" id="signupPassword" placeholder="비밀번호" required>
                 <input type="password" id="signupConfirm" placeholder="비밀번호 확인" required>
-                <input type="tel" id="signupPhone" placeholder="전화번호" required>
                 <button type="submit" class="reverse-button">회원가입</button>
             </form>
         </div>
