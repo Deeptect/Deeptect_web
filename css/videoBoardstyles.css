@@ -1,7 +1,11 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #030303;
+  /* background-color: #030303; */
+  background-image: url('stars.png');
+  background-size: auto;
+  background-repeat: auto;
+  background-position: center;
   color: #e5e5e5;
 
   
@@ -11,7 +15,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #121212;
+  background-color: #0f0f0f;
   padding: 12px 20px;
   border-bottom: 1px solid #333;
   position: sticky;
@@ -61,8 +65,12 @@ body {
   display: flex;
   gap: 10px;
   padding: 16px 20px;
-  background-color: #030303;
+  /* background-color: #030303; */
   /* border-bottom: 1px solid #333; */
+  background-image: url('stars.png');
+  background-size: auto;
+  background-repeat: auto;
+  background-position: center;
   overflow-x: auto;
 }
 
@@ -139,9 +147,9 @@ body {
   background-color: #222;
   border-radius: 20px;
   padding: 5px 10px;
-  width: 25%;
+  width: 400px;         /* 고정 너비 설정 (또는 max-width 사용 가능) */
   height: 35px;
-  margin: 0 20px;
+  margin: 0 auto;       /* 수평 중앙 정렬 */
 }
 
 .search-bar input {

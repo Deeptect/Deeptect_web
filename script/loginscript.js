@@ -16,7 +16,7 @@ function login(event) {
     };
 
     // 로그인 요청 API 호출
-    fetch('/api/v1/user/login', {
+    fetch('http://localhost:8080/api/v1/user/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -101,7 +101,7 @@ function signup(event) {
         confirmPassword
     };
 
-    fetch('/api/v1/user/register', {
+    fetch('http://localhost:8080/api/v1/user/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

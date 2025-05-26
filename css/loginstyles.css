@@ -1,5 +1,9 @@
 body {
-    background-color: #030303;
+    /* background-color: #030303; */
+    background-image: url('stars.png');
+    background-size: auto;
+    background-repeat: auto;
+    background-position: center;
     color: white;
     display: flex;
     flex-direction: column;

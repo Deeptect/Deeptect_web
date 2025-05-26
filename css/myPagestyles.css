@@ -1,5 +1,9 @@
 body {
-    background-color: #030303;
+    /* background-color: #030303; */
+    background-image: url('stars.png');
+    background-size: auto;
+    background-repeat: auto;
+    background-position: center;
     margin: 0;
     font-family: 'Arial', sans-serif;
     color: #fff;
@@ -53,15 +57,16 @@ body {
     filter: invert(1);
   }
   
-  .search-bar {
-    display: flex;
-    align-items: center;
-    background-color: #222;
-    border-radius: 20px;
-    padding: 5px 10px;
-    width: 25%;
-    height: 35px;
-  }
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #222;
+  border-radius: 20px;
+  padding: 5px 10px;
+  width: 400px;         /* 고정 너비 설정 (또는 max-width 사용 가능) */
+  height: 35px;
+  margin: 0 auto;       /* 수평 중앙 정렬 */
+}
   
   .search-bar input {
     flex: 1;
@@ -239,4 +244,8 @@ body {
     pointer-events: auto;
     z-index: 2;
   }
+
+  input::placeholder {
+  font-size: 1.3em;
+}
   

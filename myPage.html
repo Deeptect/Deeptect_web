@@ -21,51 +21,42 @@
       </button>
     </div>
     <div class="actions">
-      <button onclick="location.href='videoBoard.html'">업로드</button>
-      <button onclick="location.href='myPage.html'">마이페이지</button>
+      <button onclick="location.href='upLoad.html'">업로드</button>
     </div>
   </header>
+
   <main>
-  <aside class="top-menu">
+    <aside class="top-menu">
       <button onclick="showSection('view')">회원정보 조회</button>
       <button onclick="showSection('edit')">회원정보 수정</button>
       <button onclick="showSection('delete')">회원 탈퇴</button>
-  </aside>
-  
-  <div class="mypage-container">
-    <section id="section-view" class="section active">
-      <h2>회원정보 조회</h2>
-      <div class="info-box">
-        <p><strong>닉네임:</strong> <span id="nickname">사용자닉네임</span></p>
-        <p><strong>아이디:</strong> user123</p>
-        <p><strong>이름:</strong> 홍길동</p>
-        <p><strong>이메일:</strong> <span id="email">user@example.com</span></p>
-        <p><strong>비밀번호:</strong> ********</p>
-        <p><strong>전화번호:</strong> 010-1234-5678</p>
-        <p><strong>인증 상태:</strong> <span id="verified">미인증</span></p>
-      </div>
-    </section>
+    </aside>
+    
+    <div class="mypage-container">
+      <section id="section-view" class="section active">
+        <h2>회원정보 조회</h2>
+        <div class="info-box"></div>
+      </section>
 
-    <section id="section-edit" class="section">
-      <h2>회원정보 수정</h2>
-      <div class="form-box">
-        <input type="text" id="editNickname" placeholder="닉네임" />
-        <input type="text" id="editEmail" placeholder="이메일" />
-        <input type="text" id="editProfileImage" placeholder="프로필 이미지 URL" />
-        <button onclick="updateUserInfo(event)">회원정보 수정</button>
-      </div>
-    </section>
+      <section id="section-edit" class="section">
+        <h2>회원정보 수정</h2>
+        <div class="form-box">
+          <input type="text" placeholder="닉네임" />
+          <!-- <input type="text" placeholder="전화번호" /> 전화번호 → 이메일로 변경 권장 -->
+          <button onclick="updateInfo()">회원정보 수정</button>
+        </div>
+      </section>
 
-    <section id="section-delete" class="section">
-      <h2>회원 탈퇴</h2>
-      <div class="form-box">
-        <input type="password" id="withdrawPassword" placeholder="비밀번호 입력" />
-        <button onclick="withdrawAccount(event)">회원 탈퇴</button>
-      </div>
-    </section>
-  </div>
-</main>
+      <section id="section-delete" class="section">
+        <h2>회원 탈퇴</h2>
+        <div class="form-box">
+          <input type="password" placeholder="비밀번호 입력" />
+          <button onclick="withdrawAccount()">회원 탈퇴</button>
+        </div>
+      </section>
+    </div>
+  </main>
 
-  <script src="script/myPage.js"></script>
+  <script src="script/myPagescript.js"></script>
 </body>
 </html>
