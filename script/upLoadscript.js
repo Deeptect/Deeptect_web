@@ -113,20 +113,29 @@ async function uploadPost(data) {
   const payload = {
     id: Date.now(), // 임시 ID
     title: data.title,
-    views: data.views,
-    date: new Date().toISOString().split("T")[0], // yyyy-mm-dd
-    category: data.category,
-    isDeepfake: data.isDeepfake.toString(), // "true" 또는 "false" 문자열로
     thumbnail: data.thumbnailBase64, // base64 or URL
-    videoUrl: data.videoUrl
   };
 
-  try {
-    const res = await fetch("/api/videos", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
+try {
+  const accessToken = localStorage.getItem("accessToken");
+  const videoInput = document.querySelector("#video");
+  const thumbnailInput = document.querySelector("#thumbnail");
+  const titleInput = document.querySelector("#title"); // 예: 제목 입력 input이 있다면
+
+  const formData = new FormData();
+  formData.append("video", videoInput.files[0]);
+  formData.append("thumbnail", thumbnailInput.files[0]); // 필요하다면
+  formData.append("title", titleInput.value); // 예시: 텍스트 필드 값도 추가 가능
+  formData.append("description", "업로드 설명"); // 필요 시
+
+  const res = await fetch("http://localhost:8081/api/v1/video/upload", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      // ❌ Content-Type은 설정하지 마세요! fetch가 자동 설정
+    },
+    body: formData,
+  });
 
     if (!res.ok) throw new Error("게시물 업로드 실패");
 

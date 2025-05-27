@@ -61,16 +61,12 @@ let itemsPerPage = 12;
 // );
 
 
-
-
-
-
 function loadVideos() {
   if (isLoading) return;
   isLoading = true;
   document.getElementById("loading").style.display = "block";
 
-  fetch(`http://localhost:8080/api/v1/video/videos?page=${page}&size=${itemsPerPage}`, {
+  fetch(`http://localhost:8081/api/v1/video/videos?page=${page}&size=${itemsPerPage}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -87,7 +83,7 @@ function loadVideos() {
       });
 
       const sorted = [...filtered].sort((a, b) => {
-        if (currentSort === '최신순') return new Date(b.uploadTime) - new Date(a.uploadTime);
+        if (currentSort === '최신순') return new Date(b.uploadedAt) - new Date(a.uploadedAt);
         if (currentSort === '조회수순') return b.viewCount - a.viewCount;
         return 0;
       });
@@ -114,7 +110,7 @@ function loadVideos() {
             </div>
           </div>
         `;
-        card.onclick = () => playVideo(video.storageUrl);
+        card.onclick = () => playVideo(video.videoUrl);
         grid.appendChild(card);
       });
 
