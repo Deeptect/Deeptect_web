@@ -227,3 +227,13 @@ body {
 input::placeholder {
   font-size: 1.3em;
 }
+
+.video-thumbnail {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.video-thumbnail::-webkit-media-controls {
+  display: none !important;
+}

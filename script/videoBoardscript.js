@@ -6,60 +6,6 @@ let isLoading = false;
 let currentPage = 1;
 let itemsPerPage = 12;
 
-  
-// 임시 영상 데이터 생성
-// const allVideos = Array.from({ length: 15 }).map((_, i) => ({
-//   id: i + 1,
-//   title: `샘플 영상 ${i + 1}`,
-//   views: Math.floor(Math.random() * 10000),
-//   date: Date.now() - i * 10000000,
-//   category: ['스포츠', '뉴스', '연예', '정치', '예술'][i % 5],
-//   isDeepfake: i % 4 === 0,
-//   thumbnail: `https://picsum.photos/300/180?random=${i}`,
-// })).concat({
-
-// // const allVideos = [
-// //   {
-//     id: 21,
-//     title: "영상 1",
-//     views: 100,
-//     date: "2025-04-01",
-//     category: "스포츠",
-//     thumbnail: "https://picsum.photos/300/180?random=201",
-//     videoUrl: "videos//1.mp4"
-//   },
-//   {
-//     id: 22,
-//     title: '영상 2',
-//     views: 6789,
-//     date: Date.now() - 500000,
-//     category: '스포츠',
-//     isDeepfake: true,
-//     thumbnail: 'https://picsum.photos/300/180?random=202',
-//     videoUrl: "videos//2.mp4"
-//   },
-//   {
-//     id: 23,
-//     title: '영상 3',
-//     views: 9000,
-//     date: Date.now() - 3000000,
-//     category: '예술',
-//     isDeepfake: false,
-//     thumbnail: 'https://picsum.photos/300/180?random=203',
-//     videoUrl: "videos//4.mp4"
-//   },
-//   {
-//     id: 24,
-//     title: '영상 4',
-//     views: 10000,
-//     date: Date.now() - 100000,
-//     category: '뉴스',
-//     isDeepfake: true,
-//     thumbnail: 'https://picsum.photos/300/180?random=204',
-//     videoUrl: "videos//1.mp4"
-//   }
-// );
-
 
 function loadVideos() {
   if (isLoading) return;
@@ -72,18 +18,25 @@ function loadVideos() {
       'Content-Type': 'application/json'
     }
   })
-    .then(res => res.json())
+    .then(res => {
+      console.log("fetch res 확인:", res);
+      return res.json(); // JSON 파싱
+    })
     .then(data => {
-      const allVideos = data.content || [];
+      console.log("받은 data:", data);
+      const allVideos = data.data.content || [];
 
+      // 필터: 카테고리 + 검색어
       const filtered = allVideos.filter(v => {
         const categoryMatch = currentCategory === '전체' || v.originType === currentCategory;
         const searchMatch = v.title.toLowerCase().includes(currentSearch);
         return categoryMatch && searchMatch;
       });
 
+
+      // 정렬: 최신순 또는 조회수순
       const sorted = [...filtered].sort((a, b) => {
-        if (currentSort === '최신순') return new Date(b.uploadedAt) - new Date(a.uploadedAt);
+        if (currentSort === '최신순') return new Date(b.uploadTime) - new Date(a.uploadTime);
         if (currentSort === '조회수순') return b.viewCount - a.viewCount;
         return 0;
       });
@@ -97,6 +50,7 @@ function loadVideos() {
         return;
       }
 
+      // 렌더링: 영상 카드 생성
       sorted.forEach(video => {
         const card = document.createElement("div");
         card.className = "video-card";
@@ -105,7 +59,7 @@ function loadVideos() {
           <div class="video-info">
             <div class="video-title">${video.title}</div>
             <div class="video-meta">
-              조회수 ${video.viewCount}회 · ${timeAgo(new Date(video.uploadTime))}<br>
+              조회수 ${video.viewCount}회 · ${timeAgo(new Date(video.uploadedAt))}<br>
               ${video.isDeepfake ? '🛑 딥페이크 감지' : '✅ 정상 영상'}
             </div>
           </div>
@@ -126,60 +80,21 @@ function loadVideos() {
 }
 
 
-
-
-//백엔드안사용
-// function loadVideos() {
-//   if (isLoading) return;
-//   isLoading = true;
-//   document.getElementById("loading").style.display = "block";
-
-//   setTimeout(() => {
-//     const filtered = allVideos.filter(v => {
-//       const categoryMatch = currentCategory === '전체' || v.category === currentCategory;
-//       const searchMatch = v.title.toLowerCase().includes(currentSearch);
-//       return categoryMatch && searchMatch;
-//     });
-
-//     const sorted = [...filtered].sort((a, b) => {
-//       if (currentSort === '최신순') return b.date - a.date;
-//       if (currentSort === '조회수순') return b.views - a.views;
-//       return 0;
-//     });
-
-//     const perPage = 12;
-//     const videos = sorted.slice((page - 1) * perPage, page * perPage);
-//     const grid = document.getElementById("videoGrid");
-    
-//     if (videos.length === 0 && page === 1) {
-//         grid.innerHTML = '<div class="loading">검색 결과가 없습니다.</div>';
-//         isLoading = false;
-//         document.getElementById("loading").style.display = "none";
-//         return; // 더 이상 진행하지 않도록 return
-//       }
-
-//     videos.forEach(video => {
-//       const card = document.createElement("div");
-//       card.className = "video-card";
-//       card.innerHTML = `
-//         <img src="${video.thumbnail}" alt="썸네일" class="video-thumbnail" />
-//         <div class="video-info">
-//           <div class="video-title">${video.title}</div>
-//           <div class="video-meta">
-//             조회수 ${video.views}회 · ${timeAgo(video.date)}<br>
-//             ${video.isDeepfake ? '🛑 딥페이크 감지' : '✅ 정상 영상'}
-//           </div>
-//         </div>
-//       `;
-//       card.onclick = () => playVideo(video.videoUrl);
-//       grid.appendChild(card);
-//     });
-
-//     isLoading = false;
-//     page++;
-//     document.getElementById("loading").style.display = "none";
-//   }, 500);
+// for (let i = 1; i <= 30; i++) {
+//   const num = String(i).padStart(3, '0'); // 001, 002, ...
+//   const video = document.createElement('video');
+//   video.src = `https://pub-82632047d4cb41b3bb0ae6097e6288de.r2.dev/video/${num}.mp4`;
+//   video.controls = true;
+//   video.autoplay = false;
+//   video.muted = false;
+//   video.playsInline = true;
+//   video.style.width = "320px";
+//   video.style.margin = "10px";
+//   document.body.appendChild(video);
 // }
+
+
+
 
 function timeAgo(date) {
   const diff = Math.floor((Date.now() - date) / 1000);
