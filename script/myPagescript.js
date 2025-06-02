@@ -58,7 +58,7 @@ window.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  fetch("http://localhost:8080/api/v1/user/show", {
+  fetch("http://localhost:3000/api/v1/user/show", {
     headers: { Authorization: `Bearer ${accessToken}` },
   })
     .then((res) => res.json())
@@ -91,7 +91,7 @@ function updateInfo() {
   // const email = document.querySelector("#section-edit input[placeholder='전화번호']").value.trim();
   const accessToken = localStorage.getItem("accessToken");
 
-  fetch("http://localhost:8080/api/v1/user/update", {
+  fetch("http://localhost:3000/api/v1/user/update", {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -125,7 +125,7 @@ function withdrawAccount() {
     return;
   }
 
-  fetch("http://localhost:8080/api/v1/user/delete", {
+  fetch("http://localhost:3000/api/v1/user/delete", {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
