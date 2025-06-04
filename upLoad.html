@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>영상 업로드</title>
+  <title>영상 분석 및 업로드</title>
   <link rel="stylesheet" href="css/upLoad.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
@@ -22,43 +22,24 @@
       </button>
     </div>
     <div class="actions">
-      <!-- <select onchange="setSort(this.value)">
-        <option>최신순</option>
-        <option>조회수순</option> -->
-      </select>
-      <!-- <button onclick="location.href='upLoad.html'">업로드</button> -->
       <button onclick="location.href='myPage.html'">마이페이지</button>
     </div>
   </header>
 
   <div class="upload-container">
-    <h1 class="titlename">영상 업로드</h1>
+    <h1 class="titlename">영상 분석 및 업로드</h1>
 
     <form id="uploadForm">
       <div class="form-wrapper">
-<!-- 왼쪽 입력 영역 -->
-<div class="form-left">
-    <!-- 영상 선택 -->
-    <label for="video" class="custom-file-upload">
-      <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none"
-           viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5-5m0 0l5 5m-5-5v12" />
-      </svg>
-      영상 업로드
-    </label>
-    <input type="file" id="video" accept="video/*" style="display: none;" />
-  
-    <!-- 썸네일 업로드 -->
-    <label for="thumbnail" class="custom-file-upload">
-      <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none"
-           viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5-5m0 0l5 5m-5-5v12" />
-      </svg>
-      썸네일 업로드
-    </label>
-    <input type="file" id="thumbnail" accept="image/*" style="display: none;" />
+        <div class="form-left">
+          <label for="video" class="custom-file-upload">
+            <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5-5m0 0l5 5m-5-5v12" />
+            </svg>
+            영상 업로드
+          </label>
+          <input type="file" id="video" accept="video/*" style="display: none;" required />
 
           <label for="title">제목 (최대 50자)</label>
           <input type="text" id="title" maxlength="50" required />
@@ -73,19 +54,21 @@
             <option value="예술">예술</option>
           </select>
 
+          <div class="button-col">
+            <button type="button" id="detectBtnAttention">Attention 분석</button>
+            <button type="button" id="detectBtnConvolution">Convolution 분석</button>
+          </div>
+
           <div class="button-row">
-            <button type="button" id="detectBtn">Deepfake 감지</button>
-            <button type="submit" id="submitBtn" disabled>업로드</button>
+            <button type="submit" id="submitBtn">업로드</button>
           </div>
         </div>
 
-        <!-- 오른쪽 미리보기 영역 -->
         <div class="preview-right">
           <div class="preview-box">
-            <p class="thumbnail-placeholder">썸네일을 첨부하지 않으면 영상의 첫 프레임이 자동 사용됩니다.</p>
+            <p class="thumbnail-placeholder">※ 썸네일은 업로드 시 서버에서 자동 생성됩니다.</p>
             <div class="preview-content">
-              <img id="thumbnailPreview" />
-              <video id="preview" controls></video>
+              <video id="preview" controls style="display: none;"></video>
             </div>
           </div>
         </div>

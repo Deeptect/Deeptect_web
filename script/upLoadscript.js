@@ -1,16 +1,13 @@
-const form = document.getElementById("uploadForm");
 const videoInput = document.getElementById("video");
-const thumbnailInput = document.getElementById("thumbnail");
 const preview = document.getElementById("preview");
-const thumbPreview = document.getElementById("thumbnailPreview");
-const detectBtn = document.getElementById("detectBtn");
+const detectBtnAttention = document.getElementById("detectBtnAttention");
+const detectBtnConvolution = document.getElementById("detectBtnConvolution");
 const submitBtn = document.getElementById("submitBtn");
 const statusDiv = document.getElementById("status");
-const placeholder = document.querySelector(".thumbnail-placeholder");
+const form = document.getElementById("uploadForm");
 
-let uploadedVideoUrl = "";
-let isDeepfake = null;
-let generatedThumbnail = null;
+let attentionResult = null;
+let convolutionResult = null;
 
 videoInput.addEventListener("change", () => {
   const file = videoInput.files[0];
@@ -18,139 +15,185 @@ videoInput.addEventListener("change", () => {
     const url = URL.createObjectURL(file);
     preview.src = url;
     preview.style.display = "block";
-    thumbPreview.style.display = "none";
-    placeholder.style.display = "block";
-    uploadedVideoUrl = "";
-    isDeepfake = null;
-    submitBtn.disabled = false;  // Deepfake 여부와 관계없이 버튼 활성화
+    attentionResult = null;
+    convolutionResult = null;
+    statusDiv.textContent = "영상이 선택되었습니다. 딥페이크 분석을 진행해주세요.";
   }
 });
 
-thumbnailInput.addEventListener("change", () => {
-  const file = thumbnailInput.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = () => {
-      thumbPreview.src = reader.result;
-      thumbPreview.style.display = "block";
-      placeholder.style.display = "none";
-    };
-    reader.readAsDataURL(file);
-  } else {
-    thumbPreview.style.display = "none";
-    placeholder.style.display = "block";
-  }
-});
+detectBtnAttention.addEventListener("click", () => analyze("attention"));
+detectBtnConvolution.addEventListener("click", () => analyze("convolution"));
 
-function generateThumbnailFromVideo(videoElement) {
-  const canvas = document.createElement("canvas");
-  canvas.width = videoElement.videoWidth;
-  canvas.height = videoElement.videoHeight;
-  const ctx = canvas.getContext("2d");
-  ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-  return canvas.toDataURL("image/jpeg");
+async function analyze(type) {
+  const videoFile = videoInput.files[0];
+  const title = document.getElementById("title").value;
+  if (!videoFile || !title) return alert("영상과 제목을 모두 입력해주세요.");
+
+  const formData = new FormData();
+  formData.append("video", videoFile);
+
+  statusDiv.textContent = `${type} 분석 중...`;
+
+  try {
+    const accessToken = localStorage.getItem("accessToken");
+    const res = await fetch(`http://localhost:3000/api/v1/video/analysis/${type}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      },
+      body: formData
+    });
+
+    console.log(`${type} 분석 응답 상태:`, res.status);
+
+    if (!res.ok) {
+      const err = await res.json();
+      console.error(`${type} 분석 에러:`, err);
+      alert(`분석 실패: ${err.message || res.status}`);
+      return;
+    }
+
+    const json = await res.json();
+    console.log(`${type} 분석 응답 데이터:`, json);
+    
+    // 백엔드 응답 구조에 따라 수정 필요
+    const result = json.result || json.data || json;
+
+    if (type === "attention") {
+      attentionResult = result;
+      console.log("Attention 분석 결과:", attentionResult);
+    } else {
+      convolutionResult = result;
+      console.log("Convolution 분석 결과:", convolutionResult);
+    }
+
+    updateStatus();
+  } catch (error) {
+    console.error(`${type} 분석 중 오류:`, error);
+    statusDiv.textContent = `❌ ${type} 분석 실패: ${error.message}`;
+    statusDiv.style.color = "#d32f2f";
+  }
 }
 
-detectBtn.addEventListener("click", () => {
-  const videoFile = videoInput.files[0];
-  if (!videoFile) return alert("영상을 선택해주세요.");
+function updateStatus() {
+  console.log("updateStatus 호출됨");
+  console.log("attentionResult:", attentionResult);
+  console.log("convolutionResult:", convolutionResult);
 
-  statusDiv.textContent = "서버에 영상 업로드 및 Deepfake 감지 중...";
+  let html = "";
+  
+  if (attentionResult) {
+    const model = attentionResult.model || "Attention Model";
+    const prediction = attentionResult.prediction === true
+      ? "딥페이크 영상입니다!"
+      : "원본 영상입니다!";
+    const originalProbRAW = attentionResult.original_prob || attentionResult.originalProb || attentionResult.original_probability;
+    const deepfakeProbRAW = attentionResult.deepfake_prob || attentionResult.deepfakeProb || attentionResult.deepfake_probability;
 
-  setTimeout(() => {
-    const result = Math.random() < 0.5 ? 0 : 1;
-    isDeepfake = result;
+    const originalProb = `${Math.round(originalProbRAW * 100)}%`;
+    const deepfakeProb = `${Math.round(deepfakeProbRAW * 100)}%`;
 
-    if (result === 1) {
-      statusDiv.textContent = "⚠️ Deepfake 영상으로 감지되었습니다. 업로드는 가능하지만, 서버에선 감지된 상태로 처리됩니다.";
-    } else {
-      statusDiv.textContent = "✅ 정상 영상입니다. 업로드 가능합니다.";
+    html += `✅ 🧠 Attention 분석<br/>`;
+    html += `모델: ${model}<br/>`;
+    html += `예측 결과: ${prediction}<br/>`;
+    html += `원본 확률: ${originalProb}<br/>`;
+    html += `딥페이크 확률: ${deepfakeProb}<br/><br/>`;
+  }
+  
+  if (convolutionResult) {
+    const model = convolutionResult.model || "Convolution Model";
+    const prediction = attentionResult.prediction === true
+    ? "딥페이크 영상입니다!"
+    : "원본 영상입니다!";
+    const originalProbRAW = convolutionResult.original_prob || convolutionResult.originalProb || convolutionResult.original_probability;
+    const deepfakeProbRAW = convolutionResult.deepfake_prob || convolutionResult.deepfakeProb || convolutionResult.deepfake_probability;
+    
+    const originalProb = `${Math.round(originalProbRAW * 100)}%`;
+    const deepfakeProb = `${Math.round(deepfakeProbRAW * 100)}%`;
+
+    html += `✅ ⚡ Convolution 분석<br/>`;
+    html += `모델: ${model}<br/>`;
+    html += `예측 결과: ${prediction}<br/>`;
+    html += `원본 확률: ${originalProb}<br/>`;
+    html += `딥페이크 확률: ${deepfakeProb}<br/>`;
+  }
+  
+  if (html) {
+    const attentionPred = attentionResult?.prediction !== undefined ? attentionResult.prediction : attentionResult?.pred;
+    const convolutionPred = convolutionResult?.prediction !== undefined ? convolutionResult.prediction : convolutionResult?.pred;
+    // const detected = attentionPred === 1 || convolutionPred === 1;
+    console.log(attentionPred)
+    console.log(convolutionPred)
+    
+    let resultText = "✅ 정상 영상입니다";
+    if (attentionPred === true && convolutionPred === true) {
+      resultText = "🛑 딥페이크";
+    } else if (attentionPred === true || convolutionPred === true) {
+      resultText = "⚠️ 딥페이크일 가능성이 있습니다";
     }
-
-    // 썸네일이 없을 경우 첫 프레임으로 썸네일을 생성
-    if (!thumbnailInput.files.length) {
-      preview.addEventListener("loadeddata", () => {
-        generatedThumbnail = generateThumbnailFromVideo(preview);
-        thumbPreview.src = generatedThumbnail;
-        thumbPreview.style.display = "block";
-        placeholder.style.display = "none";
-      }, { once: true });
-    }
-  }, 1000);
-});
+    html += `<br/><strong>결과: ${resultText}</strong>`;
+    
+    statusDiv.style.color = "#d6d2d2";
+  }
+  
+  console.log("생성된 HTML:", html);
+  statusDiv.innerHTML = html;
+}
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  // 기존의 "Deepfake 감지를 먼저 통과해야 합니다." 메시지 제거
-  if (!uploadedVideoUrl && isDeepfake === null) {
-    return alert("Deepfake 감지 후 업로드를 진행해주세요.");
+  if (!attentionResult || !convolutionResult) {
+    alert("두 분석 모두 완료되어야 업로드할 수 있습니다.");
+    return;
   }
 
-  const metadata = {
-    title: document.getElementById("title").value,
-    category: document.getElementById("category").value || "없음",
-    videoUrl: "임시_URL",
-    views: 0,
-    isDeepfake: isDeepfake !== null ? isDeepfake : false, // Deepfake 감지 여부를 서버에 전송
-    thumbnailBase64: null
-  };
+  const videoFile = videoInput.files[0];
+  const title = document.getElementById("title").value;
+  // const description = document.getElementById("description").value;
+  const category = document.getElementById("category").value;
 
-  if (thumbnailInput.files.length) {
-    const reader = new FileReader();
-    reader.onload = async () => {
-      metadata.thumbnailBase64 = reader.result;
-      await uploadPost(metadata);
-    };
-    reader.readAsDataURL(thumbnailInput.files[0]);
-  } else {
-    metadata.thumbnailBase64 = generatedThumbnail;
-    await uploadPost(metadata);
-  }
-});
+  const formData = new FormData();
+  formData.append("video", videoFile);
+  formData.append("title", title);
+  // formData.append("description", description);
+  formData.append("category", category);
 
-async function uploadPost(data) {
-  const payload = {
-    id: Date.now(), // 임시 ID
-    title: data.title,
-    views: data.views,
-    date: new Date().toISOString().split("T")[0], // yyyy-mm-dd
-    category: data.category,
-    isDeepfake: data.isDeepfake.toString(), // "true" 또는 "false" 문자열로
-    thumbnail: data.thumbnailBase64, // base64 or URL
-    videoUrl: data.videoUrl
-  };
+  formData.append("attention", true); // 또는 false, 실제 값
+  formData.append("attention_pred", attentionResult.prediction ?? attentionResult.pred ?? false);
+  formData.append("attention_og_prob", attentionResult.original_prob ?? attentionResult.originalProb ?? 0.0);
+  formData.append("attention_df_prob", attentionResult.deepfake_prob ?? attentionResult.deepfakeProb ?? 0.0);
+
+  formData.append("convolution", true); // 또는 false
+  formData.append("convolution_pred", convolutionResult.prediction ?? convolutionResult.pred ?? false);
+  formData.append("convolution_og_prob", convolutionResult.original_prob ?? convolutionResult.originalProb ?? 0.0);
+  formData.append("convolution_df_prob", convolutionResult.deepfake_prob ?? convolutionResult.deepfakeProb ?? 0.0);
+
+  statusDiv.textContent = "영상 업로드 중...";
 
   try {
-    const res = await fetch("/api/videos", {
+    const accessToken = localStorage.getItem("accessToken");
+    const res = await fetch("http://localhost:3000/api/v1/video/upload", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        // Content-Type을 명시적으로 설정하지 않음 (브라우저가 자동으로 multipart/form-data로 설정)
+      },
+      body: formData,
     });
 
-    if (!res.ok) throw new Error("게시물 업로드 실패");
+    if (!res.ok) throw new Error("업로드 실패");
 
-    statusDiv.textContent = "업로드 성공!";
-    statusDiv.style.color = "#4caf50"; // 성공 메시지는 초록색
+    statusDiv.textContent = "✅ 업로드 성공!";
+    statusDiv.style.color = "#4caf50";
+
     form.reset();
     preview.style.display = "none";
-    thumbPreview.style.display = "none";
-    submitBtn.disabled = true;
+    attentionResult = null;
+    convolutionResult = null;
   } catch (err) {
-    statusDiv.textContent = "업로드 실패: " + err.message;
-    statusDiv.style.color = "#d32f2f"; // 실패 메시지는 빨간색
-  }
-}
-
-document.getElementById('searchButton').addEventListener('click', () => {
-  const searchInput = document.getElementById('searchInput').value;
-  if (searchInput.trim() !== '') {
-    window.location.href = `videoBoard.html?search=${encodeURIComponent(searchInput)}`;
-  }
-});
-
-document.getElementById('searchInput').addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    document.getElementById('searchButton').click();
+    console.error("업로드 오류:", err);
+    statusDiv.textContent = "❌ 업로드 실패: " + err.message;
+    statusDiv.style.color = "#d32f2f";
   }
 });
