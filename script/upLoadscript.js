@@ -36,7 +36,7 @@ async function analyze(type) {
 
   try {
     const accessToken = localStorage.getItem("accessToken");
-    const res = await fetch(`http://localhost:3000/api/v1/video/analysis/${type}`, {
+    const res = await fetch(`https://zdznessqpctcnxhj.tunnel.elice.io/api/v1/video/analysis/${type}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`
@@ -173,7 +173,7 @@ form.addEventListener("submit", async (e) => {
 
   try {
     const accessToken = localStorage.getItem("accessToken");
-    const res = await fetch("http://localhost:3000/api/v1/video/upload", {
+    const res = await fetch("https://zdznessqpctcnxhj.tunnel.elice.io/api/v1/video/upload", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,

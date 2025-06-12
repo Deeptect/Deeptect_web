@@ -9,7 +9,7 @@ function loadVideos() {
   isLoading = true;
   document.getElementById("loading").style.display = "block";
 
-  fetch(`http://localhost:3000/api/v1/video/videos?page=${page}&size=${itemsPerPage}`, {
+  fetch(`https://zdznessqpctcnxhj.tunnel.elice.io/api/v1/video/videos?page=${page}&size=${itemsPerPage}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' }
   })
